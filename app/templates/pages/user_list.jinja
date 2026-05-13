@@ -1,0 +1,32 @@
+{#=====================================================
+  Creature List page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h2>List of Users</h2>
+
+    <section id="Creatures">
+
+        {% for user in users %}
+
+            <div class="creature">
+                <h3>{{ user.username }}</h3>
+                <p>First Name: <strong>{{ user.forename }}</strong></p>
+                <p>Last Name: <strong>{{ user.surname }}</strong></p>
+                <p>Password hash: <strong>{{ user.pw_hash }}</strong></p>
+            </div>
+
+        {% else %}
+
+            <p>No Users!</p>
+
+        {% endfor %}
+
+    </section>
+
+{% endblock %}
+

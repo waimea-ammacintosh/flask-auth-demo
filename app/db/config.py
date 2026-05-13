@@ -15,24 +15,22 @@
 #     SEED_DATA = "INSERT INTO name (...)" or None
 #----------------------------------------------------------------------------
 
-class CreatureTable:
+class UserTable:
 
-    NAME = "creatures"
+    NAME = "users"
 
     SCHEMA = """
-        CREATE TABLE creatures (
-            id      INTEGER PRIMARY KEY AUTOINCREMENT,
-            species TEXT NOT NULL,
-            name    TEXT NOT NULL
+        CREATE TABLE users (
+            id       INTEGER PRIMARY KEY AUTOINCREMENT,
+            forename TEXT NOT NULL,
+            surname  TEXT NOT NULL,
+            username TEXT NOT NULL,
+            pw_hash  TEXT NOT NULL
         )
     """
 
     SEED_DATA = """
-        INSERT INTO creatures (species, name)
-        VALUES
-            ("Dragon",  "Pippa"),
-            ("Unicorn", "Barry"),
-            ("Vampire", "Helen")
+ 
     """
 
 # Add more table classes here...
@@ -55,7 +53,7 @@ class CreatureTable:
 #----------------------------------------------------------------------------
 
 TABLES = [
-    CreatureTable,
+    UserTable,
     # Add more tables here...
 ]
 
