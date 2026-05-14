@@ -119,6 +119,9 @@ def login_user():
          """
          params = (username,)
          user = db.execute(sql, params).fetchone()
+
+         if user.isAdmin == True:
+             print("finish")
  
          if not user:
              flash(f"Unknown user", "error")

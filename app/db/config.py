@@ -30,10 +30,28 @@ class UserTable:
     """
 
     SEED_DATA = """
- 
+        INSERT INTO users (admin, person, admin, 'scrypt:32768:8:1$bWFxNHmhbwCRY5lc$7f093fbd397c96d03868f046e2e51cac69ea72598b0c267933982c2b029f7cf8a4f219ca08d37ffe2f6f3bbeeffd5171f253c9291722eb58ff60e01bf262ebec')
     """
 
 # Add more table classes here...
+class MessageTable:
+
+    NAME = "messages"
+
+    SCHEMA = """
+        CREATE TABLE messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            body TEXT NOT NULL
+
+            FOREIGN KEY(user_id) REFERENCES user(id)
+        )
+    """
+
+    SEED_DATA = """
+            # INSERT INTO messages ()
+    """
 
 
 
