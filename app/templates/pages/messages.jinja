@@ -1,0 +1,45 @@
+{#=====================================================
+  Messages page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h2>Messages</h2>
+
+    <form method="post" action="/messages">
+
+      <label>
+        Title
+        <input type="text" name="title" required>
+      </label>
+
+      <label>
+        Message
+        <input type="text" name="body" required>
+      </label>
+
+      <button>Submit</button>
+
+    </form>
+
+    <section id="Creatures">
+
+        {% for message in messages %}
+
+            <div class="creature">
+                <h3>{{ message.title }} - {{ message.user_id }}</h3>
+                <p>{{ message.body }}</p>
+            </div>
+
+        {% else %}
+
+            <p>No Messages!</p>
+
+        {% endfor %}
+
+    </section>
+{% endblock %}
+

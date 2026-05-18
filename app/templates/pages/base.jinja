@@ -32,17 +32,19 @@
         <h1>Creatures</h1>
 
         <nav>
-            <a href="/">Home</a>
-            <a href="/users">User List</a>
-            <a href="/help">Help</a>
-            {% if session.logged_in %}
-                Welcome, {{ session.user.forename }}!               
-                <a href="/admin">Admin</a>
+        {% if session.logged_in %}
+                Welcome, {{ session.user.forename }}!              
                 <a href="/logout">Logout</a>
-            {% else %}
+                <a href="/messages">Messages</a>
+            {% else %}            
                 <a href="/users/new">Sign up</a>
                 <a href="/login">Log in</a>
             {% endif %}
+            {% if session.admin %}
+                <a href="/users">User List</a>
+            {% endif %}
+            <a href="/">Home</a>
+            <a href="/help">Help</a>
 
         </nav>
     </header>

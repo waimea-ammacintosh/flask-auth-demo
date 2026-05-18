@@ -87,10 +87,10 @@ def process_new_user():
 
         pass_hash = generate_password_hash(password)
         sql2 = """
-            INSERT INTO users (forename, surname, username, pw_hash)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO users (forename, surname, username, pw_hash, is_Admin)
+            VALUES (?, ?, ?, ?, ?)
         """
-        params2 = (forename, surname, username, pass_hash)
+        params2 = (forename, surname, username, pass_hash, False)
         db.execute(sql2, params2)
         flash("Account created.", "success")
         return redirect("/")
@@ -113,16 +113,13 @@ def login_user():
     password = request.form.get('password', '').strip()
     with connect_db() as db:
          sql = """
-             SELECT id, forename, surname, pw_hash
+             SELECT id, forename, surname, pw_hash, is_admin
              FROM users
              WHERE username=?
          """
          params = (username,)
          user = db.execute(sql, params).fetchone()
 
-         if user.isAdmin == True:
-             print("finish")
- 
          if not user:
              flash(f"Unknown user", "error")
              return redirect("/login")
@@ -130,9 +127,13 @@ def login_user():
          if not check_password_hash(user["pw_hash"], password):
              flash(f"Incorrect password", "error")
              return redirect("/login")
+         
+         if user["is_admin"] == True:
+             session["admin"] = True
  
          session["logged_in"] = True
          session["user"] = {
+             "id": user["id"],
              "username": username,
              "forename": user["forename"],
              "surname":  user["surname"],
@@ -147,11 +148,49 @@ def login_user():
 @app.get("/logout")
 def logout():
     session["logged_in"] = False
+    session["admin"] = False
     session["user"] = {}
     flash("Logged out!")
     return redirect("/")
 
+#-----------------------------------------------------------
+# Messages page
+#-----------------------------------------------------------
+@app.get("/messages")
+def show_messages():
+    with connect_db() as db:
+        sql = """
+            SELECT *
+            FROM messages
+        """
+        params = ()
+        messages = db.execute(sql, params).fetchall()
+    return render_template("pages/messages.jinja", messages = messages)
 
+
+#-----------------------------------------------------------
+# Handle message send
+#-----------------------------------------------------------
+@app.post("/messages")
+def process_message():
+    title = request.form.get('title', '').strip()
+    body  = request.form.get('body',  '').strip()
+    user_id = session["user"]["id"]
+
+    with connect_db() as db:
+        sql = """INSERT INTO messages (user_id, title, body)
+            VALUES (?, ?, ?)"""        
+        params = (user_id, title, body)
+
+        message = db.execute(sql, params)
+
+        # sql2 = """
+        #     SELECT *
+        #     FROM messages
+        # """
+        # params2 = ()
+        # messages = db.execute(sql2, params2).fetchall()
+        return redirect("/messages")
 
 #===========================================================
 # Configure the app
