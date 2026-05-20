@@ -1,24 +1,55 @@
 /*===========================================================
-  APP NAME HERE
-  By YOUR NAME HERE
+  Auth intro
+  By Aaron
 ===========================================================*/
 
 :root {
-    --text-col:         #244;
+    --base-color: #1749a5;
+    --accent-color: rgb(1, 56, 1);
 
-    --back-col:         #dff;
-    --back-col-dark:    #bdd;
+    --base-color-light: color-mix(in srgb, var(--base-color), #fff 20%);
+    --base-color-lighter: color-mix(in srgb, var(--base-color), #fff 50%);
+    --base-color-dark: color-mix(in srgb, var(--base-color), #000 25%);
+    --base-color-darker: color-mix(in srgb, var(--base-color), #000 50%);
 
-    --border-col:       #355;
+    --text-color: #000;
+    --inv-text-color: #fff;
 
-    --accent-col:       #e43;
+
+    --page-bg: var(--base-color-lighter);
+    --panel-bg: var(--base-color-light);
+
+    --link-color: var(--accent-color);
+    --button-bg: var(--accent-color);
+    --button-color: var(--inv-text-color);
+    --link-color: var(--accent-color);
+
+
+    --padding: 1rem;
+    --padding-sm: 0.5rem;
+    --padding-lr: 2rem;
+
+    --gap: 1rem;
+    --gap-sm: 0.5rem;
+    --gap-lr: 2rem;
+
+    --margin: 1rem;
+    --margin-sm: 0.5rem;
+    --margin-lr: 2rem;
+
+
+    --content-width: 60rem;
+    --content-width-sm: 30rem;
+
+
+
 }
 
 
 /* Overall Layout -----------------------------------------------*/
 
 html {
-    background-color: var(--back-col);
+    background-color: var(--page-bg);
     color: var(--text-col);
 
     font-family: system-ui, sans-serif;
@@ -33,7 +64,7 @@ body {
 main {
     max-width: 60rem;
     margin-inline: auto;
-    padding: 1rem;
+    padding: var(--padding);
 }
 
 
@@ -41,9 +72,9 @@ main {
 
 body > header {
     display: flex;
-    gap: 1rem;
+    gap: var(--gap);
     align-items: center;
-    padding: 1rem;
+    padding: var(--padding);
 
     .logo {
         width: 2rem;
@@ -57,10 +88,10 @@ body > header {
 
     nav {
         display: flex;
-        gap: 1rem;
+        gap: var(--gap);
 
         a {
-            color: var(--accent-col);
+            color: var(--link-color);
         }
     }
 }
@@ -82,12 +113,16 @@ main > h2 {
 }
 
 
-/* Creature List --------------------------------------------------*/
+/* User List --------------------------------------------------*/
 
-#creatures {
+#users {
     display: grid;
-    gap: 2rem;
+    gap: var(--gap-lr);
     grid-template-columns: 1fr;
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
 
     @media (width >= 500px) {
         grid-template-columns: 1fr 1fr;
@@ -97,12 +132,53 @@ main > h2 {
         grid-template-columns: 1fr 1fr 1fr;
     }
 
-    .creature {
-        padding: 1rem;
+    .user {
+        padding: var(--padding);
 
-        background-color: var(--back-col-dark);
-        border: 2px solid var(--border-col);
+        background-color: var(--panel-bg);
+        border: 2px solid var(--accent-color);
         border-radius: 0.5rem;
+
+        h3 {
+            color: var(--accent-color);
+        }
+    }
+}
+
+/* posts List --------------------------------------------------*/
+
+#posts {
+    display: block;
+    gap: var(--gap-lr);
+    grid-template-columns: 1fr;
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
+    padding: var(--padding);
+    
+
+    @media (width >= 500px) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media (width >= 800px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .post {
+        display: flex;
+        flex-flow: column;
+        padding: var(--padding);
+        margin: var(--margin);
+
+        background-color: var(--panel-bg);
+        border: 2px solid var(--accent-color);
+        border-radius: 0.5rem;
+        width: var(--content-width);
+        align-items: center;
+        justify-content: center;
+        
 
         h3 {
             color: var(--accent-col);
@@ -110,4 +186,16 @@ main > h2 {
     }
 }
 
+/* form --------------------------------------------------*/
 
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    width: 100%;
+
+    max-width: var(--content-width-sm);
+    margin-inline: auto;
+    padding: var(--padding);
+
+}
