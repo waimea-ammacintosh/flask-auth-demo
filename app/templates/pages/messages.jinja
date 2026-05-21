@@ -32,6 +32,12 @@
             <div class="post">
                 <h3>{{ message.title }} - {{ message.user_id }}</h3>
                 <p>{{ message.body }}</p>
+                {% if (session.logged_in %}
+                   {% if message.user_id == session["user"]["id"]) %}
+                    <button>edit</button>
+                    <button>delete</button>
+                  {% endif %}
+                {% endif %}
             </div>
 
         {% else %}

@@ -32,6 +32,7 @@ def show_welcome():
 # User list page - Show all the user
 #-----------------------------------------------------------
 @app.get("/users")
+#@admin_required
 def show_all_userss():
     with connect_db() as db:
         sql = """
@@ -157,6 +158,7 @@ def logout():
 # Messages page
 #-----------------------------------------------------------
 @app.get("/messages")
+@login_required
 def show_messages():
     with connect_db() as db:
         sql = """

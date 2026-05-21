@@ -27,4 +27,24 @@ def login_required(func):
 
     return wrapper
 
+#-----------------------------------------------------------
+# A decorator function to check user is admin
+# - This is determined by a 'is_admin' value being present
+#   in the session
+#-----------------------------------------------------------
+def admin_required(func):
+    @wraps(func)
+    # Wrap a given function...
+    def wrapper(*args, **kwargs):
+
+        # Is the user logged in and admin?
+        if (session.get('logged_in') & session.get('is_admin')) :
+            # Yes, so run function
+            return func(*args, **kwargs)
+
+        # No, so go to home page
+        flash("You need to be admin", "error")
+        return redirect("/")
+
+    return wrapper
 

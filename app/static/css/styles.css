@@ -40,6 +40,20 @@
 
     --content-width: 60rem;
     --content-width-sm: 30rem;
+    --content-width-lr: 90rem;
+
+    --button-width: 10rem;
+    --button-width-sm: 7rem;
+    --button-width-lr: 13rem;
+
+    --button-height: 3rem;
+    --button-width-sm: 1rem;
+    --button-width-lr: 5rem;
+
+    --font-size: 1rem;
+    --font-size-sm: 0.5rem;
+    --font-size-lr: 2rem;
+
 
 
 
@@ -198,4 +212,27 @@ form {
     margin-inline: auto;
     padding: var(--padding);
 
+}
+
+
+/* button------------------------------------------------*/
+
+.button{
+    display: flex;
+    width: 100%;
+    max-width: var(--button-width);
+    height: var(--button-height);
+    border-radius: 0.4rem;
+    background-color: var(--button-bg);
+    align-self: center;
+    justify-self: center;
+    align-items: center;
+    justify-items: center;
+
+}
+
+.button > a {
+    text-decoration: null;
+    font-size: var(--font-size);
+    font: var(--button-color);
 }
