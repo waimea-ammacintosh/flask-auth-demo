@@ -185,13 +185,26 @@ def process_message():
         params = (user_id, title, body)
 
         message = db.execute(sql, params)
+        return redirect("/messages")
 
-        # sql2 = """
-        #     SELECT *
-        #     FROM messages
-        # """
-        # params2 = ()
-        # messages = db.execute(sql2, params2).fetchall()
+
+#-----------------------------------------------------------
+# Message edit page
+#-----------------------------------------------------------
+@app.get("/edit/<int:id>")
+def show_edit_message(id):
+        with connect_db() as db:
+            sql = "SELECT user_id FROM messages WHERE id =?"
+            params = (id,)
+            uid = db.execute(sql, params).fetchone()
+            print(uid.keys())
+            uid = int(uid['user_id'])
+            if (uid == session["user"]["id"]):
+                sql2 = "SELECT body, title FROM messages WHERE id =?"
+                message = db.execute(sql2, params)
+                return render_template("pages/edit.jinja", message = message)
+
+        flash("Not Logged in", "error")
         return redirect("/messages")
 
 #===========================================================

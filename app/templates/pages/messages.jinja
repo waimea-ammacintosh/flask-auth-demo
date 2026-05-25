@@ -32,10 +32,10 @@
             <div class="post">
                 <h3>{{ message.title }} - {{ message.user_id }}</h3>
                 <p>{{ message.body }}</p>
-                {% if (session.logged_in %}
-                   {% if message.user_id == session["user"]["id"]) %}
-                    <button>edit</button>
-                    <button>delete</button>
+                {% if (session.logged_in) %}
+                   {% if message.user_id == session["user"]["id"] %}
+                    <button onclick="window.location.href='/edit/{{ message.id }}';">edit</button>
+                    <button onclick="window.location.href='/delete/{{ message.id }}';">delete</button>
                   {% endif %}
                 {% endif %}
             </div>

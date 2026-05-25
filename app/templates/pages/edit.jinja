@@ -1,0 +1,31 @@
+{#=====================================================
+  Signup page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <h2>Edit Message</h2>
+
+    <form method="post" action="/edit/{{ message.id }}">
+
+      <label>
+        Head
+        <input type="text" name="head" required value="{{ message.head }}">
+      </label>
+
+      <label>
+        Password
+        <input type="text" name="body" required value="{{ message.body }}">
+      </label>
+
+      <button>Save Changes</button>
+
+    </form>
+
+    <button onclick="window.location.href='/messages';">Cancel</button>
+
+{% endblock %}
+
