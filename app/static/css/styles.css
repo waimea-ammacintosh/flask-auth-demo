@@ -5,7 +5,7 @@
 
 :root {
     --base-color: #1749a5;
-    --accent-color: rgb(1, 56, 1);
+    --accent-color: rgb(4, 94, 4);
 
     --base-color-light: color-mix(in srgb, var(--base-color), #fff 20%);
     --base-color-lighter: color-mix(in srgb, var(--base-color), #fff 50%);
@@ -43,16 +43,21 @@
     --content-width-lr: 90rem;
 
     --button-width: 10rem;
-    --button-width-sm: 7rem;
+    --button-width-sm: 3rem;
     --button-width-lr: 13rem;
 
     --button-height: 3rem;
-    --button-width-sm: 1rem;
-    --button-width-lr: 5rem;
+    --button-height-sm: 2rem;
+    --button-height-lr: 5rem;
 
     --font-size: 1rem;
     --font-size-sm: 0.5rem;
     --font-size-lr: 2rem;
+
+    --border-radius: 0.5rem;
+    --border-radius-lr: 0.7rem;
+    --border-radius-sm: 0.4rem;
+
 
 
 
@@ -86,7 +91,6 @@ main {
 
 body > header {
     display: flex;
-    gap: var(--gap);
     align-items: center;
     padding: var(--padding);
 
@@ -130,13 +134,9 @@ main > h2 {
 /* User List --------------------------------------------------*/
 
 #users {
-    display: grid;
-    gap: var(--gap-lr);
+    display: block;
+    gap: var(--gap);
     grid-template-columns: 1fr;
-    align-self: center;
-    justify-self: center;
-    align-items: center;
-    justify-items: center;
 
     @media (width >= 500px) {
         grid-template-columns: 1fr 1fr;
@@ -148,10 +148,11 @@ main > h2 {
 
     .user {
         padding: var(--padding);
+        margin: var(--margin);
 
         background-color: var(--panel-bg);
         border: 2px solid var(--accent-color);
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
 
         h3 {
             color: var(--accent-color);
@@ -188,16 +189,27 @@ main > h2 {
 
         background-color: var(--panel-bg);
         border: 2px solid var(--accent-color);
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
         width: var(--content-width);
         align-items: center;
         justify-content: center;
         
 
         h3 {
-            color: var(--accent-col);
+            color: var(--accent-color);
         }
+    
     }
+}
+
+.postBody {
+    padding: var(--padding);
+    display: flex;
+    gap: var(--gap);
+    align-items: center;
+    font-size: 0.8rem;
+
+
 }
 
 /* form --------------------------------------------------*/
@@ -208,26 +220,44 @@ form {
     gap: var(--gap);
     width: 100%;
 
-    max-width: var(--content-width-sm);
+    max-width: 30rem;
     margin-inline: auto;
     padding: var(--padding);
 
+    background-color: var(--panel-bg);
+    border: 3px solid var(--border-col);
+    border-radius: var(--border-radius);
+    box-shadow: var(--drop-shadow);
+
+    label {
+        width: 100%;
+
+        input, textarea {
+            width: 100%;
+            border: 3px solid var(--border-col);
+            border-radius: var(--border-radius-sm);
+            padding: var(--padding-sm);
+        }
+    }
 }
+
 
 
 /* button------------------------------------------------*/
 
-.button{
+.button, button{
     display: flex;
     width: 100%;
     max-width: var(--button-width);
     height: var(--button-height);
-    border-radius: 0.4rem;
+    border-radius: var(--border-radius-sm);
     background-color: var(--button-bg);
     align-self: center;
     justify-self: center;
     align-items: center;
     justify-items: center;
+    align-content: center;
+    justify-content: center;
 
 }
 
@@ -235,4 +265,12 @@ form {
     text-decoration: null;
     font-size: var(--font-size);
     font: var(--button-color);
+}
+
+.utilityButton{
+    width: var(--button-width-sm);
+    height: var(--button-height);
+    font-size: var(--font-size-lr);
+
+    
 }

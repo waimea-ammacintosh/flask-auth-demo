@@ -32,7 +32,7 @@ def show_welcome():
 # User list page - Show all the user
 #-----------------------------------------------------------
 @app.get("/users")
-#@admin_required
+# @admin_required
 def show_all_userss():
     with connect_db() as db:
         sql = """
@@ -162,8 +162,10 @@ def logout():
 def show_messages():
     with connect_db() as db:
         sql = """
-            SELECT *
+            SELECT messages.id, messages.title, messages.body, messages.user_id, users.username
             FROM messages
+            INNER JOIN users
+            ON messages.user_id = users.id
         """
         params = ()
         messages = db.execute(sql, params).fetchall()
@@ -197,15 +199,67 @@ def show_edit_message(id):
             sql = "SELECT user_id FROM messages WHERE id =?"
             params = (id,)
             uid = db.execute(sql, params).fetchone()
-            print(uid.keys())
             uid = int(uid['user_id'])
             if (uid == session["user"]["id"]):
                 sql2 = "SELECT body, title FROM messages WHERE id =?"
-                message = db.execute(sql2, params)
-                return render_template("pages/edit.jinja", message = message)
+                message = db.execute(sql2, params).fetchone()
+                return render_template("pages/edit.jinja", message = message, id = id)
 
         flash("Not Logged in", "error")
         return redirect("/messages")
+
+
+#-----------------------------------------------------------
+# Handle message edit
+#-----------------------------------------------------------
+@app.post("/edit/<int:id>")
+def process_edit_message(id):
+        with connect_db() as db:
+            title = request.form.get('title', '').strip()
+            body  = request.form.get('body',  '').strip()
+            sql = "UPDATE messages SET title =?, body=? WHERE id =?"
+            params = (title,body,id)
+            edit = db.execute(sql, params)
+            flash("Message Edited", 'success')
+
+        return redirect("/messages")
+
+#-----------------------------------------------------------
+# Handle message delete
+#-----------------------------------------------------------
+@app.get("/delete/<int:id>")
+def delete_message(id):
+        with connect_db() as db:
+            sql = "SELECT user_id FROM messages WHERE id =?"
+            params = (id,)
+            uid = db.execute(sql, params).fetchone()
+            uid = int(uid['user_id'])
+            if (uid == session["user"]["id"] or session.admin):
+                sql = "DELETE FROM messages WHERE id=?"
+                params = (id,)
+                edit = db.execute(sql, params)
+                flash("Message Deleted", 'success')
+                return redirect("/messages")
+
+        flash("Not Logged in", "error")
+        return redirect("/messages")
+
+#-----------------------------------------------------------
+# Handle comment
+#-----------------------------------------------------------
+@app.post("/comment/<int:id>")
+def process_comment(id):
+    comment = request.form.get('comment',  '').strip()
+    user_id = session["user"]["id"]
+
+    with connect_db() as db:
+        sql = """INSERT INTO comments (message_id, comment)
+            VALUES (?, ?)"""        
+        params = (user_id, comment)
+
+        message = db.execute(sql, params)
+        return redirect("/messages")
+
 
 #===========================================================
 # Configure the app

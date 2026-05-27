@@ -9,16 +9,16 @@
 
     <h2>Edit Message</h2>
 
-    <form method="post" action="/edit/{{ message.id }}">
+    <form method="post" action="/edit/{{ id }}">
 
       <label>
-        Head
-        <input type="text" name="head" required value="{{ message.head }}">
+        Title
+        <input type="text" name="title" required placeholder="{{ message.title }}">
       </label>
 
       <label>
         Password
-        <input type="text" name="body" required value="{{ message.body }}">
+        <input type="text" name="body" required placeholder="{{ message.body }}">
       </label>
 
       <button>Save Changes</button>

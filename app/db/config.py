@@ -57,7 +57,23 @@ class MessageTable:
         values (1, 'Why hello there', 'post everything')
     """
 
+class ReplyTable:
 
+    NAME = "replies"
+
+    SCHEMA = """
+        CREATE TABLE replies (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            message_id INTEGER NOT NULL,
+            body TEXT NOT NULL,
+
+            FOREIGN KEY(message_id) REFERENCES message(id)
+        )
+    """
+
+    SEED_DATA = """
+
+    """
 
 #----------------------------------------------------------------------------
 # Table registry

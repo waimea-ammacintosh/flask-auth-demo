@@ -44,3 +44,11 @@ window.onload = (event) => {
     }
 }
 
+// let deleteItem = confirm("are you sure you want to delete your message, this cannot be undone.")
+// 
+// if (deleteItem) {
+    // continue
+// } else {
+    // return redirect"/messages"
+// }
+
