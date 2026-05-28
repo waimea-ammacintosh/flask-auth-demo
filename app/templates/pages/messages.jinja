@@ -27,38 +27,48 @@
 
     <section id="posts">
 
-        {% for message in messages %}
-
-            <div class="post">
-                <div id="postHead">
-                  <h3>{{ message.title }} - {{ message.username }}</h3>
-                </div>
-                <div id="postBody">
-                  <p>{{ message.body }}</p>
-                  {% if (session.logged_in) %}
-                    {% if message.user_id == session["user"]["id"] %}
-                      <button onclick="window.location.href='/edit/{{ message.id }}';" class="utilityButton"><strong>✎</strong></button>
-                    {% endif %}
-                    {% if message.user_id == session["user"]["id"] or session.admin %}
-                      <button onclick="window.location.href='/delete/{{ message.id }}';" class="utilityButton"><strong>🗑</strong></button>
-                    {% endif %}
-                  {% endif %}
-                </div>
-                {% if (session.logged_in) %}
+      {% for message in messages %}
+        <div class="post">
+            <div id="postHead">
+              <h3>{{ message.title }} - {{ message.username }}</h3>
+            </div>
+            <div id="postBody">
+              <p>{{ message.body }}</p>
+              {% if message.user_id == session["user"]["id"] %}
+                <button onclick="window.location.href='/edit/{{ message.id }}';" class="utilityButton"><strong>✎</strong></button>
+              {% endif %}
+              {% if message.user_id == session["user"]["id"] or session.admin %}
+                <button onclick="window.location.href='/delete/{{ message.id }}';" class="utilityButton"><strong>🗑</strong></button>
+              {% endif %}
+            </div>
+            {% if (session.logged_in) %}
+              <div>
+                <form method="post" action="/comment/{{ message.id }}">
+                  <label><input type="text" name="comment" required placeholder="Comment..."></label>
+                  <button>Comment</button>
+                </form>
+              </div>
+            {% endif %}
+            <div class="reply">
+              {% for reply in replies %}
+                {% if reply.message_id == message.id %}
                   <div>
-                    <form method="post" action="/comment/{{ message.id }}">
-                      <label><input type="text" name="comment" required placeholder="Comment..."></label>
-                      <button>Comment</button>
-                    </form>
+                    {% if reply.is_deleted == TRUE %}
+                      <p>Reply Deleted By User</p>
+                    {% else %}
+                      <p><strong>{{ reply.username }}</strong> - {{ reply.body }}</p>
+                      {% if session["user"]["id"] == reply.user_id or session.admin %}
+                        <button onclick="window.location.href='/delete/reply/{{ reply.id }}';"" class="utilityButton"><strong>🗑</strong></button>
+                      {% endif %}
+                    {% endif %}
                   </div>
                 {% endif %}
+              {% endfor %}
             </div>
-
-        {% else %}
-
-            <p>No Messages!</p>
-
-        {% endfor %}
+        </div>
+      {% else %}
+        <p>No Messages!</p>
+      {% endfor %}
 
     </section>
 {% endblock %}

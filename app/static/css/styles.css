@@ -198,19 +198,34 @@ main > h2 {
         h3 {
             color: var(--accent-color);
         }
+
+        .postBody {
+            padding: var(--padding);
+            display: flex;
+            gap: var(--gap);
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .reply {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: center;
+            justify-items: center;
+            align-items: center;
+            width: var(--content-width-sm);
+
+        }
     
     }
 }
 
-.postBody {
-    padding: var(--padding);
-    display: flex;
-    gap: var(--gap);
-    align-items: center;
-    font-size: 0.8rem;
 
 
-}
+
+
 
 /* form --------------------------------------------------*/
 

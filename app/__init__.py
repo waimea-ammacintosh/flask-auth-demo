@@ -169,7 +169,15 @@ def show_messages():
         """
         params = ()
         messages = db.execute(sql, params).fetchall()
-    return render_template("pages/messages.jinja", messages = messages)
+
+        sql2  = """
+                SELECT replies.id, replies.message_id, replies.body, replies.user_id, users.username
+                FROM replies
+                INNER JOIN users
+                ON replies.user_id = users.id
+                """
+        replies = db.execute(sql2, params).fetchall()
+    return render_template("pages/messages.jinja", messages = messages, replies = replies)
 
 
 #-----------------------------------------------------------
@@ -235,10 +243,32 @@ def delete_message(id):
             uid = db.execute(sql, params).fetchone()
             uid = int(uid['user_id'])
             if (uid == session["user"]["id"] or session.admin):
-                sql = "DELETE FROM messages WHERE id=?"
+                sql = "DELETE FROM replies WHERE message_id=?"
+                params = (id,)
+                deleteReplies = db.execute(sql, params)
+                sql2 = "DELETE FROM messages WHERE id=?"               
+                delete = db.execute(sql2, params)
+                flash("Message Deleted", 'success')
+                return redirect("/messages")
+
+        flash("Not Logged in", "error")
+        return redirect("/messages")
+
+#-----------------------------------------------------------
+# Handle comment delete
+#-----------------------------------------------------------
+@app.get("/delete/reply/<int:id>")
+def delete_reply(id):
+        with connect_db() as db:
+            sql = "SELECT user_id FROM replies WHERE id =?"
+            params = (id,)
+            uid = db.execute(sql, params).fetchone()
+            uid = int(uid['user_id'])
+            if (uid == session["user"]["id"] or session.admin):
+                sql = "UPDATE replies SET is_deleted=TRUE WHERE id=?"
                 params = (id,)
                 edit = db.execute(sql, params)
-                flash("Message Deleted", 'success')
+                flash("Reply Deleted", 'success')
                 return redirect("/messages")
 
         flash("Not Logged in", "error")
@@ -253,9 +283,9 @@ def process_comment(id):
     user_id = session["user"]["id"]
 
     with connect_db() as db:
-        sql = """INSERT INTO comments (message_id, comment)
-            VALUES (?, ?)"""        
-        params = (user_id, comment)
+        sql = """INSERT INTO replies (message_id, user_id, body, is_deleted)
+            VALUES (?, ?, ?, FALSE)"""        
+        params = (id, user_id, comment)
 
         message = db.execute(sql, params)
         return redirect("/messages")

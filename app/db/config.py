@@ -65,9 +65,12 @@ class ReplyTable:
         CREATE TABLE replies (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             message_id INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
             body TEXT NOT NULL,
+            is_deleted BOOL NOT NULL,
 
             FOREIGN KEY(message_id) REFERENCES message(id)
+            FOREIGN KEY(user_id) REFERENCES user(id)
         )
     """
 
@@ -92,7 +95,8 @@ class ReplyTable:
 
 TABLES = [
     UserTable,
-    MessageTable
+    MessageTable,
+    ReplyTable
     # Add more tables here...
 ]
 
